@@ -1,5 +1,5 @@
 # apidemo
 
-KarmaPhp api için yapılmış örnektir. 
+askmilazim.com API. 
 
 Readme düzenleniyor.
