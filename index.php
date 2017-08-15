@@ -18,10 +18,6 @@ $container = Container::build(
     require_once 'config/container.php'
 );
 
-//$container->set('errorHandler', function() {
-//    return new App\Handler\Error();
-//});
-
 $app = new App($container);
 
 // middleware
