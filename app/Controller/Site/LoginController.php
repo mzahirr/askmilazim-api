@@ -15,6 +15,6 @@ class LoginController extends MainController
 
     public function generateToken()
     {
-        return $this->loginModule->generateToken($this->getParsedBody());
+        return $this->json($this->loginModule->generateToken($this->getParsedBody()));
     }
 }

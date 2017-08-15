@@ -26,14 +26,14 @@ class LoginModule
     {
         // Request
         $userEmail = isset($data['email']) ? $data['email'] : null;
-        $password = isset($data['password']) ? $data['password']: null;
+        $password = isset($data['password']) ? $data['password'] : null;
 
         // Validation
         if (null === ($user = $this->userRepo->getByEmail($userEmail))) {
             throw new BadRequestException('Belirtilen kullanıcı bulunamadı.');
         }
 
-        if(!password_verify($password, $user->password)){
+        if (!password_verify($password, $user->password)) {
             throw new BadRequestException('The password is not correct');
         }
 
@@ -47,8 +47,14 @@ class LoginModule
         $userLoginToken->user_id = $user->id;
         $userLoginToken->save();
 
-        return $userLoginToken->token;
-
+        return [
+            'message' => 'Giriş başarılı',
+            'member' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'token' => $userLoginToken->token
+            ],
+        ];
     }
 
     /**
