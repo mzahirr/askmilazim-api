@@ -52,6 +52,7 @@ class LoginModule
             'member' => [
                 'id' => $user->id,
                 'name' => $user->name,
+                'email' => $user->email,
                 'token' => $userLoginToken->token
             ],
         ];
