@@ -1,11 +1,18 @@
 <?php namespace App\Middleware;
 
+use App\Contract\Repo\UserLoginTokenContract;
 use App\Exception\BadRequestException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class TokenMiddleware
 {
+    /**
+     * @Inject
+     * @var UserLoginTokenContract
+     */
+    private $userLoginTokenRepo;
+
     /**
      * @param Request $request
      * @param Response $response
@@ -19,6 +26,10 @@ class TokenMiddleware
 
         if (empty($request->getHeader('Auth'))) {
             throw new BadRequestException('Token required');
+        }
+
+        if(!$this->userLoginTokenRepo->existByToken($request->getHeader('Auth'))){
+            throw new BadRequestException('Token expired');
         }
 
         /** @var Response $response */

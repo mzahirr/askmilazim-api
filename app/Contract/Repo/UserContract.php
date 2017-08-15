@@ -15,4 +15,10 @@ interface UserContract
      * @return Collection|User
      */
     public function all();
+
+    /**
+     * @param string $email
+     * @return null|User
+     */
+    public function getByEmail($email);
 }

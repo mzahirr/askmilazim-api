@@ -25,4 +25,15 @@ class UserRepo implements UserContract
         return User::query()
             ->get();
     }
+
+    /**
+     * @param string $email
+     * @return null|User
+     */
+    public function getByEmail($email)
+    {
+        return User::query()
+            ->where('email', $email)
+            ->first();
+    }
 }

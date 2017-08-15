@@ -27,6 +27,6 @@ $app = new App($container);
 // middleware
 require_once 'config/middlewares.php';
 
-require_once 'config/routes.php';
+require_once 'config/routes/api.php';
 
 $app->run();
