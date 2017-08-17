@@ -5,6 +5,8 @@ use App\Contract\Repo\UserLoginTokenContract;
 use App\Exception\BadRequestException;
 use App\Table\User;
 use App\Table\UserLoginToken;
+use Aws\AwsClient;
+use Aws\Ses\SesClient;
 
 class LoginModule
 {

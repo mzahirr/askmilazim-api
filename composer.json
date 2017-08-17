@@ -10,7 +10,8 @@
 	    "karmaphp/karma": "dev-master",
         "vlucas/phpdotenv": "^2.4",
         "nesbot/carbon": "^1.22",
-        "illuminate/database": "^5.4"	
+        "illuminate/database": "^5.4",
+        "aws/aws-sdk-php": "^3.33"	
     },
     "autoload": {
         "psr-4": {
