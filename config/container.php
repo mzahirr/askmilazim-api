@@ -12,8 +12,9 @@ return [
     \App\Contract\Repo\StateContract::class => DI\get(\App\Repo\StateRepo::class),
     \App\Contract\Repo\ProfessionContract::class => DI\get(\App\Repo\ProfessionRepo::class),
 
-    \App\Base\Container::class => \DI\get(\DI\Container::class),
     \Slim\Http\Request::class => \DI\get('request'),
+    \Slim\Http\Response::class => \DI\get('response'),
+    \App\Base\Container::class => \DI\get(\DI\Container::class),
 
     'errorHandler' => DI\object(\App\Handler\Error::class)
         ->constructor(DI\get('settings.displayErrorDetails')),

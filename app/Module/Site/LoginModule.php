@@ -1,82 +1,81 @@
 <?php namespace App\Module\Site;
 
-use App\Contract\Repo\UserContract;
+use App\Contract\Repo\MemberContract;
+use App\Contract\Repo\MemberLoginTokenContract;
 use App\Contract\Repo\UserLoginTokenContract;
 use App\Exception\BadRequestException;
-use App\Table\User;
-use App\Table\UserLoginToken;
-use Aws\AwsClient;
-use Aws\Ses\SesClient;
+use App\Table\Member;
+use App\Table\MemberLoginToken;
 
 class LoginModule
 {
+    /**
+     * @Inject
+     * @var MemberContract
+     */
+    private $memberRepo;
 
     /**
      * @Inject
-     * @var UserContract
+     * @var MemberLoginTokenContract
      */
-    private $userRepo;
-
-    /**
-     * @Inject
-     * @var UserLoginTokenContract
-     */
-    private $userLoginTokenRepo;
+    private $memberLoginTokenRepo;
 
 
-    public function generateToken($data)
+    public function Login($data)
     {
         // Request
         $userEmail = isset($data['email']) ? $data['email'] : null;
         $password = isset($data['password']) ? $data['password'] : null;
 
         // Validation
-        if(empty($userEmail)){
+        if (empty($userEmail)) {
             throw new BadRequestException('Lütfen E-posta adresini giriniz.');
         }
 
-        if(empty($password)){
+        if (empty($password)) {
             throw new BadRequestException('Lütfen şifrenizi giriniz.');
         }
 
-        if (null === ($user = $this->userRepo->getByEmail($userEmail))) {
+        if (null === ($member = $this->memberRepo->getByEmail($userEmail))) {
             throw new BadRequestException('Belirtilen kullanıcı bulunamadı.');
         }
 
-        if (!password_verify($password, $user->password)) {
+        if ( ! password_verify($password, $member->password)) {
             throw new BadRequestException('Şifre yanlış');
         }
 
         // Transaction
         do {
             $token = md5(uniqid());
-        } while ($this->userLoginTokenRepo->existByToken($token));
+        } while ($this->memberLoginTokenRepo->existByToken($token));
 
-        $userLoginToken = new UserLoginToken();
-        $userLoginToken->token = $this->getUniqueToken($user);
-        $userLoginToken->user_id = $user->id;
-        $userLoginToken->save();
+        $loginToken = new MemberLoginToken();
+        $loginToken->token = $this->getUniqueToken($member);
+        $loginToken->member_id = $member->id;
+        $loginToken->save();
 
         return [
             'message' => 'Giriş başarılı',
-            'member' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'token' => $userLoginToken->token
+            'member'  => [
+                'id'    => $member->id,
+                'name'  => $member->name,
+                'email' => $member->email,
+                'token' => $loginToken->token
             ],
         ];
     }
 
     /**
-     * @param User $user
+     * @param Member $member
      * @return string
      */
-    private function getUniqueToken(User $user)
+    private function getUniqueToken($member)
     {
-        $token = md5($user->name . uniqid());
-        if ($this->userLoginTokenRepo->existByToken($token)) {
-            return $this->getUniqueToken($user);
+        $token = md5($member->name . uniqid());
+
+        if ($this->memberLoginTokenRepo->existByToken($token)) {
+            return $this->getUniqueToken($member);
         }
 
         return $token;

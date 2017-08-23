@@ -1,7 +1,6 @@
 <?php namespace App\Contract\Repo;
 
 use App\Table\Member;
-use App\Table\User;
 use Illuminate\Database\Eloquent\Collection;
 
 interface MemberContract
@@ -13,7 +12,7 @@ interface MemberContract
     public function find($id);
 
     /**
-     * @return Collection|User
+     * @return Collection|Member
      */
     public function all();
 

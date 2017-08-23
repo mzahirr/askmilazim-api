@@ -1,18 +1,18 @@
 <?php namespace App\Contract\Repo;
 
-use App\Table\User;
+use App\Table\Province;
 use Illuminate\Database\Eloquent\Collection;
 
 interface ProvinceContract
 {
     /**
      * @param int $id
-     * @return null|User
+     * @return Province|null
      */
     public function find($id);
 
     /**
-     * @return Collection|User
+     * @return Collection|Province[]
      */
     public function all();
 }

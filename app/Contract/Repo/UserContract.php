@@ -7,18 +7,18 @@ interface UserContract
 {
     /**
      * @param int $id
-     * @return null|User
+     * @return User|null
      */
     public function find($id);
 
     /**
-     * @return Collection|User
+     * @return Collection|User[]
      */
     public function all();
 
     /**
      * @param string $email
-     * @return null|User
+     * @return User|null
      */
     public function getByEmail($email);
 }

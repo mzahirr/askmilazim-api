@@ -1,6 +1,7 @@
 <?php namespace App\Repo;
 
 use App\Contract\Repo\UserContract;
+use App\Table\Member;
 use App\Table\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,7 +33,7 @@ class UserRepo implements UserContract
      */
     public function getByEmail($email)
     {
-        return User::query()
+        return Member::query()
             ->where('email', $email)
             ->first();
     }

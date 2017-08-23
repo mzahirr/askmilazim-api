@@ -3,7 +3,7 @@
 use App\Contract\Repo\MemberContract;
 use App\Controller\MainController;
 use App\Module\Site\MemberModule;
-use App\Table\User;
+use App\Table\Member;
 
 class MemberController extends MainController
 {
@@ -21,12 +21,14 @@ class MemberController extends MainController
 
     public function Index()
     {
-        return $this->response->withJson(['data' => $this->memberRepo->all()->map(function (User $user) {
-            return [
-                'id' => $user->id,
-                'name' => $user->name
-            ];
-        })]);
+        return $this->response->withJson([
+            'data' => $this->memberRepo->all()->map(function (Member $member) {
+                return [
+                    'id'   => $member->id,
+                    'name' => $member->name
+                ];
+            })
+        ]);
     }
 
     public function register()

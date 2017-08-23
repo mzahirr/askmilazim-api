@@ -65,10 +65,10 @@ class MemberModule
         $password = $data['password'] ?? null;
         $gender = $data['gender'] ?? null;
         $birthDate = $data['birth_day'] ?? null;
-        $cityId = $data['city_id'] ?? null;
-        $provinceId = $data['province_id'] ?? null;
-        $professionId = $data['profession_id'] ?? null;
-        $maritalStatus = $data['marital_status'] ?? null;
+        $cityId = $data['city'] ?? null;
+        $provinceId = $data['state'] ?? null;
+        $professionId = $data['profession'] ?? null;
+        $maritalStatus = $data['maritalStatus'] ?? null;
         // validations
 
         //E-Posta alanı boş geçilemez

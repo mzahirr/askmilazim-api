@@ -5,16 +5,14 @@ use App\Module\Site\LoginModule;
 
 class LoginController extends MainController
 {
-
-
     /**
      * @Inject
      * @var LoginModule
      */
-    private $loginModule;
+    private $module;
 
-    public function generateToken()
+    public function Login()
     {
-        return $this->json($this->loginModule->generateToken($this->getParsedBody()));
+        return $this->json($this->module->Login($this->getParsedBody()));
     }
 }
