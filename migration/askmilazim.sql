@@ -7,7 +7,7 @@
 #
 # Host: 192.168.10.10 (MySQL 5.7.17-0ubuntu0.16.04.2)
 # Database: askmilazim
-# Generation Time: 2017-08-23 12:45:58 +0000
+# Generation Time: 2017-08-23 14:09:30 +0000
 # ************************************************************
 
 
@@ -18,6 +18,203 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table member_login_tokens
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `member_login_tokens`;
+
+CREATE TABLE `member_login_tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `member_id` int(11) DEFAULT NULL,
+  `token` varchar(100) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `id_member_id` (`member_id`),
+  CONSTRAINT `id_member_id` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table members
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `members`;
+
+CREATE TABLE `members` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(190) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `activation_token` varchar(100) DEFAULT NULL,
+  `forgot_token` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `activated` int(11) DEFAULT NULL,
+  `gender` int(11) DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
+  `city_id` int(11) DEFAULT NULL,
+  `province_id` int(11) DEFAULT NULL,
+  `profession_id` int(11) DEFAULT NULL,
+  `marital_status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`),
+  KEY `members_id` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `members` WRITE;
+/*!40000 ALTER TABLE `members` DISABLE KEYS */;
+
+INSERT INTO `members` (`id`, `name`, `email`, `password`, `remember_token`, `activation_token`, `forgot_token`, `created_at`, `updated_at`, `deleted_at`, `activated`, `gender`, `birth_date`, `city_id`, `province_id`, `profession_id`, `marital_status`)
+VALUES
+	(1,NULL,'m.zahirr@hotmail.com','$2y$10$Vm08BshsHx82.HwyG00Ee.IF75XAst8cwC0j2i0CGKHYJgNuHRELW',NULL,'34e329978823707e9829c4a48b9bcc4b',NULL,'2017-08-17 14:32:34','2017-08-17 14:33:22',NULL,NULL,1,'2017-08-17',34,34,34,0),
+	(2,NULL,'m.zahirr1@hotmail.com','$2y$10$jYf5Spg5QsDm7tbo4L0Q6OlTJbYpW731wVl8cCZpEoJMWvP2VNcr2',NULL,'2679dffc55aecf99e74abff38d77c948',NULL,'2017-08-22 14:26:14','2017-08-22 14:26:14',NULL,NULL,1,'2017-08-22',7,70,6,0),
+	(3,NULL,'m.zahirr12@hotmail.com','$2y$10$k/UTZvdq7q6qLg7xKuME3uqDcOK8XKinFaQ3GNxL5F/Ew.tHIA.qC',NULL,'29d327e490858b92aa8795b3c8298345',NULL,'2017-08-22 14:28:34','2017-08-22 14:28:34',NULL,NULL,1,'2017-08-22',1,1,897,1);
+
+/*!40000 ALTER TABLE `members` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table professions
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `professions`;
+
+CREATE TABLE `professions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(50) NOT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `professions` WRITE;
+/*!40000 ALTER TABLE `professions` DISABLE KEYS */;
+
+INSERT INTO `professions` (`id`, `label`, `updated_at`, `created_at`)
+VALUES
+	(897,'Acentacı',NULL,NULL),
+	(898,'Acil durum yönetmeni',NULL,NULL),
+	(899,'Adli tabip',NULL,NULL),
+	(900,'Agronomist',NULL,NULL),
+	(901,'Ağ yöneticisi',NULL,NULL),
+	(902,'Aşçı',NULL,NULL),
+	(903,'Aşçıbaşı',NULL,NULL),
+	(904,'Ahşap tekne yapımcısı',NULL,NULL);
+
+/*!40000 ALTER TABLE `professions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table provinces
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `provinces`;
+
+CREATE TABLE `provinces` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(50) NOT NULL,
+  `plate_code` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `plate_code_unique` (`plate_code`),
+  KEY `plate_code_index` (`plate_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `provinces` WRITE;
+/*!40000 ALTER TABLE `provinces` DISABLE KEYS */;
+
+INSERT INTO `provinces` (`id`, `label`, `plate_code`, `created_at`, `updated_at`)
+VALUES
+	(1,'Adana',1,NULL,NULL),
+	(2,'Adıyaman',2,NULL,NULL),
+	(3,'Afyon',3,NULL,NULL),
+	(4,'Ağrı',4,NULL,NULL),
+	(5,'Aksaray',68,NULL,NULL),
+	(6,'Amasya',5,NULL,NULL),
+	(7,'Ankara',6,NULL,NULL),
+	(8,'Antalya',7,NULL,NULL),
+	(9,'Ardahan',75,NULL,NULL),
+	(10,'Artvin',8,NULL,NULL),
+	(11,'Aydın',9,NULL,NULL),
+	(12,'Balıkesir',10,NULL,NULL),
+	(13,'Bartın',74,NULL,NULL),
+	(14,'Batman',72,NULL,NULL),
+	(15,'Bayburt',69,NULL,NULL),
+	(16,'Bilecik',11,NULL,NULL),
+	(17,'Bingöl',12,NULL,NULL),
+	(18,'Bitlis',13,NULL,NULL),
+	(19,'Bolu',14,NULL,NULL),
+	(20,'Burdur',15,NULL,NULL),
+	(21,'Bursa',16,NULL,NULL),
+	(22,'Çanakkale',17,NULL,NULL),
+	(23,'Çankırı',18,NULL,NULL),
+	(24,'Çorum',19,NULL,NULL),
+	(25,'Denizli',20,NULL,NULL),
+	(26,'Diyarbakır',21,NULL,NULL),
+	(27,'Düzce',81,NULL,NULL),
+	(28,'Edirne',22,NULL,NULL),
+	(29,'Elazığ',23,NULL,NULL),
+	(30,'Erzincan',24,NULL,NULL),
+	(31,'Erzurum',25,NULL,NULL),
+	(32,'Eskişehir',26,NULL,NULL),
+	(33,'Gaziantep',27,NULL,NULL),
+	(34,'Giresun',28,NULL,NULL),
+	(35,'Gümüşhane',29,NULL,NULL),
+	(36,'Hakkari',30,NULL,NULL),
+	(37,'Hatay',31,NULL,NULL),
+	(38,'Iğdır',76,NULL,NULL),
+	(39,'Isparta',32,NULL,NULL),
+	(40,'İstanbul',34,NULL,NULL),
+	(41,'İzmir',35,NULL,NULL),
+	(42,'K.Maraş',46,NULL,NULL),
+	(43,'Karabük',78,NULL,NULL),
+	(44,'Karaman',70,NULL,NULL),
+	(45,'Kars',36,NULL,NULL),
+	(46,'Kastamonu',37,NULL,NULL),
+	(47,'Kayseri',38,NULL,NULL),
+	(48,'Kırıkkale',71,NULL,NULL),
+	(49,'Kırklareli',39,NULL,NULL),
+	(50,'Kırşehir',40,NULL,NULL),
+	(51,'Kilis',79,NULL,NULL),
+	(52,'Kocaeli',41,NULL,NULL),
+	(53,'Konya',42,NULL,NULL),
+	(54,'Kütahya',43,NULL,NULL),
+	(55,'Malatya',44,NULL,NULL),
+	(56,'Manisa',45,NULL,NULL),
+	(57,'Mardin',47,NULL,NULL),
+	(58,'Mersin',33,NULL,NULL),
+	(59,'Muğla',48,NULL,NULL),
+	(60,'Muş',49,NULL,NULL),
+	(61,'Nevşehir',50,NULL,NULL),
+	(62,'Niğde',51,NULL,NULL),
+	(63,'Ordu',52,NULL,NULL),
+	(64,'Osmaniye',80,NULL,NULL),
+	(65,'Rize',53,NULL,NULL),
+	(66,'Sakarya',54,NULL,NULL),
+	(67,'Samsun',55,NULL,NULL),
+	(68,'Siirt',56,NULL,NULL),
+	(69,'Sinop',57,NULL,NULL),
+	(70,'Sivas',58,NULL,NULL),
+	(71,'Şanlıurfa',63,NULL,NULL),
+	(72,'Şırnak',73,NULL,NULL),
+	(73,'Tekirdağ',59,NULL,NULL),
+	(74,'Tokat',60,NULL,NULL),
+	(75,'Trabzon',61,NULL,NULL),
+	(76,'Tunceli',62,NULL,NULL),
+	(77,'Uşak',64,NULL,NULL),
+	(78,'Van',65,NULL,NULL),
+	(79,'Yalova',77,NULL,NULL),
+	(80,'Yozgat',66,NULL,NULL),
+	(81,'Zonguldak',67,NULL,NULL);
+
+/*!40000 ALTER TABLE `provinces` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table states
@@ -939,6 +1136,75 @@ VALUES
 	(896,'Kozlu',81,'2017-06-30 14:46:21',NULL);
 
 /*!40000 ALTER TABLE `states` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table user_login_tokens
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `user_login_tokens`;
+
+CREATE TABLE `user_login_tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `token` varchar(100) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `id_idx` (`user_id`),
+  CONSTRAINT `id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `user_login_tokens` WRITE;
+/*!40000 ALTER TABLE `user_login_tokens` DISABLE KEYS */;
+
+INSERT INTO `user_login_tokens` (`id`, `user_id`, `token`, `updated_at`, `created_at`)
+VALUES
+	(1,1,'d66f5bbe08f415fded835750a6610fa5','2017-08-15 07:43:48','2017-08-15 07:43:48'),
+	(2,1,'4eed803cff4fa69f25e5c8f83123d094','2017-08-15 07:43:58','2017-08-15 07:43:58'),
+	(3,1,'bfd98fca1dd1ed4970db34724909f8e2','2017-08-15 07:47:48','2017-08-15 07:47:48'),
+	(4,1,'088acaa54a9345e86a8ebfeab993e868','2017-08-15 07:47:52','2017-08-15 07:47:52'),
+	(5,1,'f052d55b7f1065229ac50643996bbe62','2017-08-15 09:24:48','2017-08-15 09:24:48'),
+	(6,1,'32dfeb64123fd58d7f7eeb68b9cea632','2017-08-15 09:27:43','2017-08-15 09:27:43'),
+	(7,1,'2488fc642ebf9a558ba55c31c133afa7','2017-08-15 09:28:27','2017-08-15 09:28:27'),
+	(8,1,'db9f0ac46522a981d2273afc16b2829f','2017-08-15 09:29:28','2017-08-15 09:29:28'),
+	(9,1,'acce6e11fe39046149d4222c2be95a76','2017-08-22 11:04:34','2017-08-22 11:04:34'),
+	(10,1,'19b11718a5f87c8b020ae5e55ade5879','2017-08-23 09:03:26','2017-08-23 09:03:26'),
+	(11,1,'ae80a3f73b71488fb28038e10c88f379','2017-08-23 09:10:21','2017-08-23 09:10:21'),
+	(12,1,'40b9e1ab3c9d5e0723ef84871f429865','2017-08-23 09:28:49','2017-08-23 09:28:49'),
+	(13,1,'a3df1ac0fb046116427085542ad9b230','2017-08-23 09:29:18','2017-08-23 09:29:18'),
+	(14,1,'38866a25741aac79680f06c970b98d8b','2017-08-23 09:31:02','2017-08-23 09:31:02');
+
+/*!40000 ALTER TABLE `user_login_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table users
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) DEFAULT NULL,
+  `email` varchar(191) NOT NULL,
+  `password` varchar(191) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `is_activated` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `is_activated`, `created_at`, `updated_at`)
+VALUES
+	(1,'zahir','m.zahirr@hotmail.com','$2y$10$PJFrTTRCJhmBQr4V.is34uqKZaYFnvB0I57tPMpEyB1UO/YiciI3y',NULL,1,NULL,NULL);
+
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
