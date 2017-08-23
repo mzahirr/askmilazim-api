@@ -2,6 +2,7 @@
 
 use App\Exception\BadRequestException;
 use App\Exception\UnauthorizedException;
+use App\Service\UtilService;
 use DI\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Handlers\AbstractError;
@@ -13,6 +14,11 @@ use UnexpectedValueException;
 class Error extends AbstractError
 {
     /**
+     * @Inject
+     * @var UtilService
+     */
+    private $utilService;
+    /**
      * @param Request $request
      * @param Response $response
      * @param \Exception $exception
@@ -23,7 +29,7 @@ class Error extends AbstractError
     public function __invoke(Request $request, Response $response, \Exception $exception)
     {
         if ($exception instanceof BadRequestException) {
-            return $response->withJson([
+            return $this->utilService->withCors($request, $response)->withJson([
                 'message' => $exception->getMessage()
             ], 400);
         }

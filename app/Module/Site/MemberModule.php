@@ -5,6 +5,7 @@ use App\Contract\Repo\MemberLoginTokenContract;
 use App\Exception\BadRequestException;
 use App\Table\Member;
 use App\Table\UserLoginToken;
+use Carbon\Carbon;
 
 class MemberModule
 {
@@ -85,10 +86,11 @@ class MemberModule
             throw new BadRequestException('Cinsiyet alanı boş geçilemez.');
         }
 
+        //todo:şimdilik kaldırıldı frontend problemi çözülünce eklenecek
         //E-Posta alanı boş geçilemez
-        if (empty($birthDate)) {
-            throw new BadRequestException('Doğum tarihi alanı boş geçilemez.');
-        }
+        //if (empty($birthDate)) {
+        //    throw new BadRequestException('Doğum tarihi alanı boş geçilemez.');
+        //}
 
         //E-Posta alanı boş geçilemez
         if (empty($cityId)) {
@@ -103,8 +105,9 @@ class MemberModule
         if (empty($professionId)) {
             throw new BadRequestException('Meslek alanı boş geçilemez.');
         }
+
         //E-Posta alanı boş geçilemez
-        if (empty($maritalStatus)) {
+        if (is_null($maritalStatus)) {
             throw new BadRequestException('Medeni durum alanı boş geçilemez.');
         }
 
@@ -119,7 +122,7 @@ class MemberModule
         $member->email = $email;
         $member->password = password_hash($password, PASSWORD_DEFAULT);
         $member->gender = $gender;
-        $member->birth_date =  $birthDate;
+        $member->birth_date =  Carbon::now()->toDateTimeString();
         $member->city_id = $cityId;
         $member->province_id = $provinceId;
         $member->profession_id = $professionId;

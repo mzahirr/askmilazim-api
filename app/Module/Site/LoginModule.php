@@ -31,12 +31,20 @@ class LoginModule
         $password = isset($data['password']) ? $data['password'] : null;
 
         // Validation
+        if(empty($userEmail)){
+            throw new BadRequestException('Lütfen E-posta adresini giriniz.');
+        }
+
+        if(empty($password)){
+            throw new BadRequestException('Lütfen şifrenizi giriniz.');
+        }
+
         if (null === ($user = $this->userRepo->getByEmail($userEmail))) {
             throw new BadRequestException('Belirtilen kullanıcı bulunamadı.');
         }
 
         if (!password_verify($password, $user->password)) {
-            throw new BadRequestException('The password is not correct');
+            throw new BadRequestException('Şifre yanlış');
         }
 
         // Transaction
