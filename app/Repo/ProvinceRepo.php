@@ -1,11 +1,10 @@
 <?php namespace App\Repo;
 
-use App\Contract\Repo\ProvinceContract;
 use App\Table\Province;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
-class ProvinceRepo implements ProvinceContract
+class ProvinceRepo
 {
     /**
      * @param int $id

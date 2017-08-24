@@ -1,9 +1,8 @@
 <?php namespace App\Repo;
 
-use App\Contract\Repo\UserLoginTokenContract;
 use App\Table\UserLoginToken;
 
-class MemberLoginTokenRepo implements UserLoginTokenContract
+class MemberLoginTokenRepo
 {
     /**
      * @param string $token

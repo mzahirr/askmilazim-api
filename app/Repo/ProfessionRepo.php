@@ -1,11 +1,10 @@
 <?php namespace App\Repo;
 
-use App\Contract\Repo\ProfessionContract;
 use App\Table\Profession;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
-class ProfessionRepo implements ProfessionContract
+class ProfessionRepo
 {
     /**
      * @param int $id

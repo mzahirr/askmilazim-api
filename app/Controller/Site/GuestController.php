@@ -1,60 +1,28 @@
 <?php namespace App\Controller\Site;
 
 use App\Base\Controller;
-use App\Repo\ProfessionRepo;
-use App\Repo\ProvinceRepo;
-use App\Table\Profession;
-use App\Table\Province;
+use App\Module\Site\GuestModule;
 
 class GuestController extends Controller
 {
     /**
      * @Inject
-     * @var ProvinceRepo
+     * @var GuestModule
      */
-    private $provinceRepo;
-
-    /**
-     * @Inject
-     * @var ProfessionRepo
-     */
-    private $professionRepo;
+    private $module;
 
     public function Index()
     {
-        return $this->json([
-            'genders'         => [
-                [
-                    'id'    => 1,
-                    'label' => 'Erkek'
-                ],
-                [
-                    'id'    => 2,
-                    'label' => 'Bayan'
-                ]
-            ],
-            'provinces'       => $this->provinceRepo->all()->map(function (Province $province) {
-                return [
-                    'id'    => $province->id,
-                    'label' => $province->label
-                ];
-            }),
-            'professions'     => $this->professionRepo->all()->map(function (Profession $profession) {
-                return [
-                    'id'    => $profession->id,
-                    'label' => $profession->label
-                ];
-            }),
-            'maritalStatuses' => [
-                [
-                    'id'    => 1,
-                    'label' => 'Bekar'
-                ],
-                [
-                    'id'    => 2,
-                    'label' => 'Evli'
-                ]
-            ]
-        ]);
+        return $this->json($this->module->Index());
+    }
+
+    public function Login()
+    {
+        return $this->json($this->module->Login($this->getParsedBody()));
+    }
+
+    public function register()
+    {
+        return $this->json($this->module->Register($this->getParsedBody()));
     }
 }

@@ -1,18 +1,18 @@
 <?php namespace App\Controller\Site;
 
-use App\Controller\MainController;
+use App\Base\Controller;
 use App\Module\Site\StateModule;
 
-class StateController extends MainController
+class StateController extends Controller
 {
     /**
      * @Inject
      * @var StateModule
      */
-    private $stateModule;
+    private $module;
 
-    public function getByCityId($cityId)
+    public function States()
     {
-        return $this->response->withJson(['data' => $this->stateModule->getStateByCityId($cityId)]);
+        return $this->json($this->module->States($this->request->getParams()));
     }
 }

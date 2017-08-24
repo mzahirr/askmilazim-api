@@ -1,30 +1,26 @@
 <?php namespace App\Module\Site;
 
-use App\Contract\Repo\StateContract;
-use App\Exception\BadRequestException;
+use App\Base\Module;
+use App\Repo\StateRepo;
 use App\Table\State;
 
-class StateModule
+class StateModule extends Module
 {
-
     /**
      * @Inject
-     * @var StateContract
+     * @var StateRepo
      */
     private $stateRepo;
 
-    public function getStateByCityId($cityId)
+    public function States($data)
     {
-        // Request
-        if (empty($cityId)) {
-            throw new BadRequestException('Şehir id alanı gereklidir.');
-        }
+        $provinceId = isset($data['province_id']) ? intval($data['province_id']) : null;
 
-        return $this->stateRepo->getByCityId($cityId)->map(function (State $state) {
+        return $this->stateRepo->items($provinceId)->map(function (State $state) {
             return [
-                'id' => $state->id,
+                'id'    => $state->id,
                 'label' => $state->label
             ];
-        });
+        })->toArray();
     }
 }

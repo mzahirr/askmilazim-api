@@ -1,12 +1,11 @@
 <?php namespace App\Repo;
 
-use App\Contract\Repo\UserContract;
 use App\Table\Member;
 use App\Table\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
-class UserRepo implements UserContract
+class UserRepo
 {
     /**
      * @param int $id

@@ -1,11 +1,10 @@
 <?php namespace App\Repo;
 
-use App\Contract\Repo\MemberContract;
 use App\Table\Member;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
-class MemberRepo implements MemberContract
+class MemberRepo
 {
     /**
      * @param int $id
@@ -28,7 +27,7 @@ class MemberRepo implements MemberContract
 
     /**
      * @param string $email
-     * @return null|Member
+     * @return Member|null
      */
     public function getByEmail($email)
     {
@@ -44,7 +43,7 @@ class MemberRepo implements MemberContract
     public function existByEmail($email)
     {
         return Member::query()
-            ->where('email' , $email)
+            ->where('email', $email)
             ->exists();
     }
 }
