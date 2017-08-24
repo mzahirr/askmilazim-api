@@ -21,7 +21,7 @@ $app->group('/api', function () use ($app) {
     //Şehirler
 
     $app->get('/getcities', [ProvinceController::class, 'Index']);
-    $app->get('/getprovince/{cityId}', [StateController::class, 'getByCityId']);
+    $app->get('/getstates/{cityId}', [StateController::class, 'getByCityId']);
     $app->get('/getprofessions', [ProfessionController::class, 'all']);
 
 });
